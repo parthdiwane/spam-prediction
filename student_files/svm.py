@@ -84,8 +84,7 @@ def run(Xtrain_file: str, Ytrain_file: str, test_data_file: str, pred_file: str)
     X_train = pd.read_csv(Xtrain_file)
     Y_train = pd.read_csv(Ytrain_file)
     x_test = pd.read_csv(test_data_file)
-    y_test = pd.read_csv(pred_file)
-
+   
 
     X_train, x_test = preprocess_data(X_train=X_train, X_test=x_test)
 
@@ -95,7 +94,6 @@ def run(Xtrain_file: str, Ytrain_file: str, test_data_file: str, pred_file: str)
     model.train(X_train, Y_train)
     y_hat = model.predict(x_test)
 
-    accuracy = evaluate(y_true=y_test, y_pred=y_hat)
     pd.DataFrame(y_hat).to_csv(pred_file, header=False, index=False)
 
 
