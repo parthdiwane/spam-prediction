@@ -45,9 +45,9 @@ class SVMClassifier:
     
         for cur_epoch in range(epochs):
             for index, row in X.iterrows():
-                val = y[0][index] * (np.dot(weight, row))
+                val = y.iloc[index, 0] * (np.dot(weight, row))
                 if val < 1:
-                    weight = weight + alpha * (y[0][index] * row - lambda_reg * weight) # SGD update rule 
+                    weight = weight + alpha * (y.iloc[index, 0] * row - lambda_reg * weight) # SGD update rule 
                 else:
                     weight = weight - alpha * lambda_reg * weight # regularization penalization
 

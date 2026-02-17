@@ -45,11 +45,11 @@ class VotedPerceptron:
             cur_w = weights[-1] # start at most recent weight vector
             cnt = survival[-1]
             for i, row in X.iterrows():
-                val = y[0][i] * (np.dot(cur_w, row)) # check if current weight preds correct
+                val = y.iloc[i, 0]* (np.dot(cur_w, row)) # check if current weight preds correct
                 if val <= 0:
                     survival.append(cnt)
                     cnt = 1
-                    new_w = cur_w + (y[0][i] * row)
+                    new_w = cur_w + (y.iloc[i, 0] * row)
                     weights.append(new_w)
                     cur_w = new_w
                 else:
