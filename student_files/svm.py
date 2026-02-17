@@ -94,7 +94,6 @@ def run(Xtrain_file: str, Ytrain_file: str, test_data_file: str, pred_file: str)
     y_hat = model.predict(x_test)
 
     accuracy = evaluate(y_true=y_test, y_pred=y_hat)
-
-    return accuracy
+    pd.DataFrame(y_hat).to_csv(pred_file, header=False, index=False)
 
 
