@@ -60,6 +60,8 @@ class SVMClassifier:
         y_hat = []
         for index, row in X.iterrows():
             val = np.sign(np.dot(self.weight, row))
+            if val == 0:
+                val = 1
             y_hat.append(val)
         return y_hat
 

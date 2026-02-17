@@ -64,7 +64,10 @@ class VotedPerceptron:
         for index, row in X.iterrows():
             total = 0
             for i in range(len(self.weights)):
-                total += self.survival[i] * np.sign(np.dot(self.weights[i], row))
+                val =  np.sign(np.dot(self.weights[i], row))
+                if val == 0:
+                    val = 1
+                total += self.survival[i] * val
             y_hat.append(np.sign(total))
         return y_hat
 
