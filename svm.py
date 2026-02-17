@@ -6,7 +6,7 @@ Homework 2, Problem 2: Support Vector Machine (SVM)
 
 import numpy as np
 import pandas as pd
-
+import matplotlib.pyplot as plt
 
 def load_data(X_path: str, y_path: str = None):
     """Load features and labels from CSV files."""
@@ -35,12 +35,12 @@ def preprocess_data(X_train, X_test): # this code was taken from the perceptron 
 class SVMClassifier:
     """Support Vector Machine Classifier."""
 
-    def train(self, X, y):
+    def train(self, X, y, lambda_reg):
         """Fit the classifier to training data."""
         epochs = 40
         weight = np.zeros(X.shape[1])
         alpha = 0.001 
-        lambda_reg = 0.001
+        # lambda_reg = 0.001
 
     
         for cur_epoch in range(epochs):
@@ -91,9 +91,53 @@ def run(Xtrain_file: str, Ytrain_file: str, test_data_file: str, pred_file: str)
 
     model = SVMClassifier()
 
-    model.train(X_train, Y_train)
+    model.train(X_train, Y_train, lambda_reg=0.001)
     y_hat = model.predict(x_test)
 
     pd.DataFrame(y_hat).to_csv(pred_file, header=False, index=False)
+
+
+if __name__ == "__main__":
+    x,y = load_data("/Users/parth/Desktop/spam-prediction/data/spam_X.csv", "/Users/parth/Desktop/spam-prediction/data/spam_y.csv")
+
+    n = len(x)
+    index = int(n * 0.9)
+
+    X_train = x.iloc[:index].copy()
+    Y_train = y.iloc[:index].copy() # 90 percent
+
+    
+    x_test = x.iloc[index:].copy() # 10 percent 
+    y_test = y.iloc[index:].copy()
+
+
+    X_train, x_test = preprocess_data(X_train, x_test)
+
+    lambda_set = [0.0001, 0.001, 0.01, 0.1, 1, 10]
+    accuracies = []
+
+    for cur_lambda in lambda_set:
+        model = SVMClassifier()
+
+        model.train(X_train, Y_train, cur_lambda)
+        y_hat = model.predict(x_test)
+        y_true = y_test.iloc[:, 0].to_list()
+        accuracy = evaluate(y_true, y_hat)
+        accuracies.append(accuracy)
+
+    pct = lambda_set
+    plt.figure(figsize=(8, 5))
+    plt.plot(pct, accuracies, 'bo-', linewidth=2, markersize=8)
+    plt.xlabel("Lambda")
+    plt.ylabel("Accuracy")
+    plt.title("SVM: Accuracy vs Lambda")
+    plt.xscale('log')
+    plt.xticks(pct, [str(l) for l in pct])
+    plt.grid(True, alpha=0.3)
+    plt.tight_layout()
+    plt.savefig("svm_accuracy_plot.png", dpi=150)
+    plt.show()
+    
+
 
 
