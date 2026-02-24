@@ -61,7 +61,7 @@ class SVMClassifier:
             val = np.sign(np.dot(self.weight, row))
             if val == 0:
                 val = 1
-            y_hat.append(val)
+            y_hat.append(int(val))
         return y_hat
 
 

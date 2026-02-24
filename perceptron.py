@@ -67,7 +67,10 @@ class VotedPerceptron:
                 if val == 0:
                     val = 1
                 total += self.survival[i] * val
-            y_hat.append(np.sign(total))
+            final_sign = np.sign(total)
+            if final_sign == 0:
+                final_sign = 1
+            y_hat.append(int(final_sign))
         return y_hat
 
 
