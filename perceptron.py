@@ -27,6 +27,9 @@ def preprocess_data(X_train, X_test):
     X_train = (X_train - train_mean) / train_std                                                                                                                                                           
     X_test = (X_test - train_mean) / train_std
 
+    X_train['bias'] = 1                                                                                                                                                                                    
+    X_test['bias'] = 1                                                                                                                                                                                     
+
     return X_train, X_test
 
 class VotedPerceptron:
@@ -34,7 +37,7 @@ class VotedPerceptron:
 
     def train(self, X, y):
         """Fit the classifier to training data."""
-        epochs = 10
+        epochs = 60
         weights = [np.zeros(X.shape[1])] # w_0
         survival = [0] # c_0
         for cur_epoch in range(epochs):

@@ -17,13 +17,16 @@ def load_data(X_path: str, y_path: str = None):
 
 def preprocess_data(X_train, X_test): # this code was taken from the perceptron code
     """Preprocess training and test data."""
-    train_max = X_train.max(axis=0)
-    train_max[train_max == 0] = 1
+    train_mean = X_train.mean(axis=0)                                                                                                                                                                      
+    train_std = X_train.std(axis=0)
 
-    X_train = X_train / train_max                                                                                                                                                                          
-    X_test = X_test / train_max 
+    train_std[train_std == 0] = 1                                                                                                                                                                          
 
-    return X_train, X_test
+    X_train = (X_train - train_mean) / train_std                                                                                                                                                           
+    X_test = (X_test - train_mean) / train_std
+
+    X_train['bias'] = 1                                                                                                                                                                                    
+    X_test['bias'] = 1       
 
     return X_train, X_test
 
@@ -33,9 +36,9 @@ class SVMClassifier:
 
     def train(self, X, y, lambda_reg):
         """Fit the classifier to training data."""
-        epochs = 10
+        epochs = 60
         weight = np.zeros(X.shape[1])
-        alpha = 0.001 
+        alpha = 0.01 
         # lambda_reg = 0.001
 
     
