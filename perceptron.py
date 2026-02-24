@@ -34,7 +34,7 @@ class VotedPerceptron:
 
     def train(self, X, y):
         """Fit the classifier to training data."""
-        epochs = 40
+        epochs = 10
         weights = [np.zeros(X.shape[1])] # w_0
         survival = [0] # c_0
         for cur_epoch in range(epochs):
