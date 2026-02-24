@@ -20,16 +20,11 @@ def load_data(X_path: str, y_path: str = None):
 def preprocess_data(X_train, X_test):
     """Preprocess training and test data."""
     # columns with large scales: columns 56, 57 
-    x_train_max55 = X_train.iloc[:, 55].max()
-    x_train_max56 = X_train.iloc[:, 56].max()
-    
+    train_max = X_train.max(axis=0)
+    train_max[train_max == 0] = 1
 
-    # min max scaling --> find max and divide by it
-    X_train.iloc[:,55] = X_train.iloc[:,55] / x_train_max55
-    X_train.iloc[:,56] = X_train.iloc[:,56] / x_train_max56
-
-    X_test.iloc[:,55] = X_test.iloc[:,55] / x_train_max55
-    X_test.iloc[:, 56] = X_test.iloc[:, 56] / x_train_max56
+    X_train = X_train / train_max                                                                                                                                                                          
+    X_test = X_test / train_max 
 
     return X_train, X_test
 
@@ -38,7 +33,7 @@ class VotedPerceptron:
 
     def train(self, X, y):
         """Fit the classifier to training data."""
-        epochs = 60
+        epochs = 40
         weights = [np.zeros(X.shape[1])] # w_0
         survival = [0] # c_0
         for cur_epoch in range(epochs):
