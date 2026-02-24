@@ -19,12 +19,13 @@ def load_data(X_path: str, y_path: str = None):
 
 def preprocess_data(X_train, X_test):
     """Preprocess training and test data."""
-    # columns with large scales: columns 56, 57 
-    train_max = X_train.max(axis=0)
-    train_max[train_max == 0] = 1
+    train_mean = X_train.mean(axis=0)                                                                                                                                                                      
+    train_std = X_train.std(axis=0)
 
-    X_train = X_train / train_max                                                                                                                                                                          
-    X_test = X_test / train_max 
+    train_std[train_std == 0] = 1                                                                                                                                                                          
+
+    X_train = (X_train - train_mean) / train_std                                                                                                                                                           
+    X_test = (X_test - train_mean) / train_std
 
     return X_train, X_test
 
