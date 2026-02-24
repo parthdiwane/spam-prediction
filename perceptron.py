@@ -100,48 +100,48 @@ def run(Xtrain_file: str, Ytrain_file: str, test_data_file: str, pred_file: str)
 
     pd.DataFrame(y_hat).to_csv(pred_file, header=False, index=False)
 
-if __name__ == "__main__":
-    x,y = load_data("/Users/parth/Desktop/spam-prediction/data/spam_X.csv", "/Users/parth/Desktop/spam-prediction/data/spam_y.csv")
+# if __name__ == "__main__":
+#     x,y = load_data("/Users/parth/Desktop/spam-prediction/data/spam_X.csv", "/Users/parth/Desktop/spam-prediction/data/spam_y.csv")
 
-    n = len(x)
-    index = int(n * 0.9)
+#     n = len(x)
+#     index = int(n * 0.9)
 
-    X_train = x.iloc[:index].copy()
-    Y_train = y.iloc[:index].copy() # 90 percent
+#     X_train = x.iloc[:index].copy()
+#     Y_train = y.iloc[:index].copy() # 90 percent
     
-    x_test = x.iloc[index:].copy() # 10 percent 
-    y_test = y.iloc[index:].copy()
+#     x_test = x.iloc[index:].copy() # 10 percent 
+#     y_test = y.iloc[index:].copy()
 
-    percentage = [0.01, 0.02, 0.05, 0.1, 0.2, 1]
-    accuracies = []
+#     percentage = [0.01, 0.02, 0.05, 0.1, 0.2, 1]
+#     accuracies = []
 
-    for amount in percentage:
-        index_new = int(amount * len(X_train))
+#     for amount in percentage:
+#         index_new = int(amount * len(X_train))
 
-        X_train_percent = X_train.iloc[:index_new].reset_index(drop=True)
-        Y_train_percent= Y_train.iloc[:index_new].reset_index(drop=True)
-        x_test_cpy = x_test.reset_index(drop=True)
+#         X_train_percent = X_train.iloc[:index_new].reset_index(drop=True)
+#         Y_train_percent= Y_train.iloc[:index_new].reset_index(drop=True)
+#         x_test_cpy = x_test.reset_index(drop=True)
 
-        x_train_preprocessed, x_test_preprocessed = preprocess_data(X_train_percent.copy(), x_test_cpy.copy())
+#         x_train_preprocessed, x_test_preprocessed = preprocess_data(X_train_percent.copy(), x_test_cpy.copy())
 
-        model = VotedPerceptron()
+#         model = VotedPerceptron()
 
-        model.train(x_train_preprocessed, Y_train_percent)
-        y_hat = model.predict(x_test_preprocessed)
+#         model.train(x_train_preprocessed, Y_train_percent)
+#         y_hat = model.predict(x_test_preprocessed)
 
-        y_true = y_test.iloc[:,0].to_list()
-        accuracy = evaluate(y_true, y_hat)
+#         y_true = y_test.iloc[:,0].to_list()
+#         accuracy = evaluate(y_true, y_hat)
 
-        accuracies.append(accuracy)
+#         accuracies.append(accuracy)
     
 
-    pct = [f * 100 for f in percentage]
-    plt.figure(figsize=(8, 5))
-    plt.plot(pct, accuracies, 'bo-', linewidth=2, markersize=8)
-    plt.xlabel("Percent of Remaining Training Data")
-    plt.ylabel("Accuracy")
-    plt.title("Voted Perceptron: Accuracy vs Training Data Fraction")
-    plt.xticks(pct, [f"{p:.0f}%" for p in pct])
-    plt.grid(True, alpha=0.3)
-    plt.tight_layout()
-    plt.show()
+#     pct = [f * 100 for f in percentage]
+#     plt.figure(figsize=(8, 5))
+#     plt.plot(pct, accuracies, 'bo-', linewidth=2, markersize=8)
+#     plt.xlabel("Percent of Remaining Training Data")
+#     plt.ylabel("Accuracy")
+#     plt.title("Voted Perceptron: Accuracy vs Training Data Fraction")
+#     plt.xticks(pct, [f"{p:.0f}%" for p in pct])
+#     plt.grid(True, alpha=0.3)
+#     plt.tight_layout()
+#     plt.show()
