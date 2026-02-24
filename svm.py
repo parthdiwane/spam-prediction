@@ -37,7 +37,7 @@ class SVMClassifier:
 
     def train(self, X, y, lambda_reg):
         """Fit the classifier to training data."""
-        epochs = 40
+        epochs = 60
         weight = np.zeros(X.shape[1])
         alpha = 0.001 
         # lambda_reg = 0.001
